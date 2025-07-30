@@ -1,4 +1,4 @@
-FROM docker.io/library/nginx:1.23.3-alpine
+FROM openresty/openresty:1.25.3.2-5-alpine
 
 RUN apk add --update certbot-nginx tzdata
 
