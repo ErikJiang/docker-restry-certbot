@@ -1,0 +1,24 @@
+services:
+  nginx:
+    image: ghcr.io/erikjiang/restry-certbot:v0.0.2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+      - ./certbot/conf/:/etc/letsencrypt/
+      - ./certbot/www/:/var/www/certbot/
+    restart: unless-stopped
+  sss:
+    image: ghcr.io/wzshiming/sss/sss:v0.1.0
+    restart: unless-stopped
+    command:
+    - --url
+    - 's3://<AK>:<SK>@<bucket>.<region>?chunksize=<chunksize>&regionendpoint=<regionendpoint>&signendpoint=<signendpoint>'
+    - serve
+    - --address=:80
+    - --redirect
+    - --expires=10s
+    - --allow-list
+
+
